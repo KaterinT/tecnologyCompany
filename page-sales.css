@@ -1,0 +1,14 @@
+#_rsi-cod-form-modal{
+    display: none;
+}
+
+#_rsi-cod-form-modal-2 {
+    display: none;
+}
+
+._rsi-cod-form-modal-form {
+    font-size: calc(0.95 * 16.8px);
+    background: rgba(241, 239, 239, 1) !important;
+    box-shadow: 0 10px 20px 0 rgb(0,0,0,0);
+    border: 0px solid rgba(0,0,0,1);
+}

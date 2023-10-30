@@ -391,6 +391,14 @@ function addSecondModalInsideDiv(buttonBuyModal) {
             e.preventDefault();
             alert('Por favor, completa todos los campos obligatorios.');
         } else {
+
+            fbq('track', 'CompleteRegistration', {
+                content_name: 'User Registration',  // The name of the completed registration event.
+                currency: 'SOL',  // The currency used for registration (if applicable).
+                status: 'new_user',  // The status of the registration (e.g., new_user, returning_user, etc.).
+                value: 0  // The value associated with the registration event (if applicable).
+            });
+
             // store the data in the local storange
             let formData = {};
             requiredFields.forEach(function(field) {
@@ -474,6 +482,24 @@ function addSecondModalInsideDiv(buttonBuyModal) {
             let closeSecondModal = document.querySelectorAll("#_rsi-cod-form-modal-close-2");
             closeSecondModal[0].addEventListener("click",function(){
                 window.open(whatsappURL, '_blank');
+
+
+                fbq('trackCustom', 'PurchaseSecondClose', {
+                    content_ids: ['PRODUCT_ID_1'],  // An array of product IDs.
+                    content_name: 'LEDS SOLARES DE COLORES NAVIDAD',  // The name of the product.
+                    content_type: 'product',  // The type of content (e.g., product, product_group, etc.).
+                    contents: [
+                      {
+                        id: 'PRODUCT_ID_1',  // Product ID
+                        quantity: 1,  // Quantity purchased
+                        item_price: totalValue,  // Price per item
+                        currency: 'SOL'  // Currency of the transaction
+                      }
+                    ],
+                    currency: 'SOL',  // The currency of the purchase.
+                    num_items: 1,  // Total number of items in the purchase.
+                    value: totalValue  // The total value of the purchase.
+                  });  
             })
 
             let selectElement = document.querySelector('select[data-position="1"]');
@@ -504,6 +530,7 @@ function addSecondModalInsideDiv(buttonBuyModal) {
             let yesOfferSecondModal = document.querySelectorAll("#_rsi-modal-submit-button-upsell")
 
             yesOfferSecondModal[0].addEventListener("click", function(){
+              
                 const price = document.querySelector('._rsi-modal-upsell-price').textContent;
                 const valueFromHTML = parseFloat(price.replace('S/. ', ''));
                 console.log(valueFromHTML,"valueFromHTML");
@@ -526,6 +553,7 @@ function addSecondModalInsideDiv(buttonBuyModal) {
                 let newWhatsappURL = `https://api.whatsapp.com/send?phone=51972198713&text=${newEncodedMessage}`;
                 // console.log("whatsappURL",newWhatsappURL);
                 window.open(newWhatsappURL, '_blank');
+                fbq('trackCustom', 'BuyWithAditionalProduct', {currency: "SOL", value: newTotalValue});
             })
 
 

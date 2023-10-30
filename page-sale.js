@@ -304,7 +304,7 @@ var miFirstBoton = document.getElementById("_rsi-buy-now-button");
 
 
 miFirstBoton.addEventListener("click", function() {
-
+    fbq('track', 'InitiateCheckout');
     setTimeout(function() {
         addClassToBoxBuySecond()
     }, 1000); 
@@ -345,8 +345,8 @@ miFirstBoton.addEventListener("click", function() {
         }
         
         totalElement.textContent = 'S/. ' + currentTotal.toFixed(2);
-    });            
-        
+    }); 
+    
 });
 
 function addClassToBoxBuySecond() {
@@ -373,6 +373,7 @@ function addSecondModalInsideDiv(buttonBuyModal) {
 
     buttonBuyModal[0].addEventListener("click", function(e) {
         e.preventDefault();
+
         //start obligatory
 
         var requiredFields = document.querySelectorAll('input[required]');
@@ -497,7 +498,7 @@ function addSecondModalInsideDiv(buttonBuyModal) {
                     newmessage = `Hola soy ${first_name} deseo confirmar mi pedido de LEDS SOLARES DE COLORES NAVIDAD, PROYECTOR DE NAVIDAD - 1 x 89.90 con un *costo total de S/.  ${newTotalValue }* para ${address}. *El tiempo de envío será de 3 a 5 días hábiles después de mi confirmación del pedido*`;
                 }
                 // Constructing the message
-                
+
                 // Encoding the message for a URL
                 let newEncodedMessage = encodeURIComponent(newmessage);
 
@@ -536,6 +537,46 @@ function addModaButtonClose() {
             showModal[0].remove();
         console.log("closeModal",showModal[0])
     })
+
+        // ADD DSCTO 10.00 SOLES
+
+        var buttonDescount = document.querySelectorAll("#_rsi-modal-submit-button-downsell");
+        
+        buttonDescount[0].addEventListener('click', function() {
+            console.log("descount",buttonDescount[0]);
+            // Create the new discount element
+            var newDiscountElement = document.createElement('div');
+            newDiscountElement.classList.add('_rsi-modal-checkout-line');
+            newDiscountElement.dataset.checkoutLine = 'discount';
+    
+            var titleElement = document.createElement('span');
+            titleElement.classList.add('_rsi-modal-checkout-line-title');
+            titleElement.textContent = 'Descuentos';
+    
+            var valueElement = document.createElement('span');
+            valueElement.classList.add('_rsi-modal-checkout-line-value');
+            valueElement.textContent = '- S/. 10.00';
+    
+            newDiscountElement.appendChild(titleElement);
+            newDiscountElement.appendChild(valueElement);
+    
+            // Get the parent element
+            var parentElement = document.querySelector("._rsi-modal-checkout-lines");
+    
+            // Get the element after which to insert the new discount element
+            var shippingElement = document.querySelector("div[data-checkout-line='shipping']");
+    
+            // Insert the new discount element after the shipping element
+            parentElement.insertBefore(newDiscountElement, shippingElement.nextSibling);
+
+
+            let closeDescountModal = document.querySelectorAll("#_rsi-downsells-modal")
+            closeDescountModal[0].style.display="none";
+            
+
+        })
+
+
 }
 
 

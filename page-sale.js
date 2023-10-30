@@ -351,11 +351,19 @@ miFirstBoton.addEventListener("click", function() {
 
 function addClassToBoxBuySecond() {
     var buttonBuyModal = document.querySelectorAll("#_rsi-cod-form-modal-form ._rsi-build-block-submit-button button");    
-    console.log(buttonBuyModal);
+  
     function toggleClass() {
         buttonBuyModal[0].classList.toggle("_rsi-buy-now-button-shaker-enabled");
     }
     setInterval(toggleClass, 1000); // Toggle class every 0.2 seconds
+
+    // hidden X
+    var buttonClose = document.querySelectorAll("#_rsi-cod-form-modal-close")
+
+    buttonClose[0].addEventListener("click", function(e) {
+        e.preventDefault();
+        addModaButtonClose() 
+    })
 
     addSecondModalInsideDiv(buttonBuyModal)
 }
@@ -365,7 +373,6 @@ function addSecondModalInsideDiv(buttonBuyModal) {
 
     buttonBuyModal[0].addEventListener("click", function(e) {
         e.preventDefault();
-
         //start obligatory
 
         var requiredFields = document.querySelectorAll('input[required]');
@@ -402,14 +409,6 @@ function addSecondModalInsideDiv(buttonBuyModal) {
             var showModal=document.getElementById("_rsi-cod-form-modal-form")
             showModal.style.display = "none";
 
-            // hidden X
-            var buttonClose = document.querySelectorAll("#_rsi-cod-form-modal-close-2")
-
-            buttonClose[0].addEventListener("click", function(e) {
-                e.preventDefault();
-                console.log("aqui ahora");
-                addModaButtonClose() 
-            })
             let boxContainer = document.querySelector("._rsi-modal-upsell-countdown-container")
             // let days =document.querySelector('._rsi-modal-upsell-countdown-days')
             let hours =document.querySelector('._rsi-modal-upsell-countdown-hours')
@@ -450,6 +449,74 @@ function addSecondModalInsideDiv(buttonBuyModal) {
             buttonEndBuyAndSecondModal.addEventListener("click",function(){
                 window.open(whatsappURL, '_blank');
             })
+
+            let closeSecondModal = document.querySelectorAll("#_rsi-cod-form-modal-close-2");
+            closeSecondModal[0].addEventListener("click",function(){
+                window.open(whatsappURL, '_blank');
+            })
+
+            let selectElement = document.querySelector('select[data-position="1"]');
+            console.log("select",selectElement);
+            
+            var priceContainer = document.getElementsByClassName('_rsi-modal-upsell-prices')[0];
+            
+            var regularPriceElement = priceContainer.querySelector('._rsi-modal-upsell-price');
+            console.log("is selected",regularPriceElement);
+            selectElement.addEventListener('change', function() {
+              
+                var selectedValue = this.value;
+               
+         
+
+                var compareAtPriceElement = priceContainer.querySelector('._rsi-modal-upsell-compare-at-price');
+                
+
+                if (selectedValue === "2%20und%20%20+%201%20regalo%20%F0%9F%8E%81%20a%20179.80") {
+                    compareAtPriceElement.innerText = "S/. 179.80";
+                    regularPriceElement.innerText = "S/. 149.80";
+                } else {
+                    compareAtPriceElement.innerText = "S/. 89.00";
+                    regularPriceElement.innerText = "S/. 59.00";
+                }
+            });
+
+            let yesOfferSecondModal = document.querySelectorAll("#_rsi-modal-submit-button-upsell")
+
+            yesOfferSecondModal[0].addEventListener("click", function(){
+                const price = document.querySelector('._rsi-modal-upsell-price').textContent;
+                const valueFromHTML = parseFloat(price.replace('S/. ', ''));
+                console.log(valueFromHTML,"valueFromHTML");
+                const totalValue2 = valueFromHTML + parseFloat(totalValue);
+                let newTotalValue = totalValue2.toFixed(2);
+                console.log("aqui button second total actual",valueFromHTML === 149.8 );
+
+                let newmessage = ``;
+                if (valueFromHTML === 149.8) {
+                    newmessage = `Hola soy ${first_name} deseo confirmar mi pedido de LEDS SOLARES DE COLORES NAVIDAD, PROYECTOR DE NAVIDAD - 2 und + 1 regalo � a 179.80 con un *costo total de S/.  ${newTotalValue }* para ${address}. *El tiempo de envío será de 3 a 5 días hábiles después de mi confirmación del pedido*`;
+                }else{
+                    newmessage = `Hola soy ${first_name} deseo confirmar mi pedido de LEDS SOLARES DE COLORES NAVIDAD, PROYECTOR DE NAVIDAD - 1 x 89.90 con un *costo total de S/.  ${newTotalValue }* para ${address}. *El tiempo de envío será de 3 a 5 días hábiles después de mi confirmación del pedido*`;
+                }
+                // Constructing the message
+                
+                // Encoding the message for a URL
+                let newEncodedMessage = encodeURIComponent(newmessage);
+
+                // Constructing the final URL
+                let newWhatsappURL = `https://api.whatsapp.com/send?phone=51972198713&text=${newEncodedMessage}`;
+                // console.log("whatsappURL",newWhatsappURL);
+                window.open(newWhatsappURL, '_blank');
+            })
+
+
+
+            // class to shake 
+
+            function toggleClass() {
+                yesOfferSecondModal[0].classList.toggle("_rsi-buy-now-button-shaker-enabled");
+            }
+            setInterval(toggleClass, 1000); // Toggle class every 0.2 seconds
+
+            // end class to shake 
            
      
         }
@@ -461,8 +528,14 @@ function addModaButtonClose() {
     setTimeout(function() {
         addClassShakeToModalEspera()
     }, 1000); 
-    addModalEspera()
+    addModalEspera();
 
+    let closeModal = document.querySelectorAll("#_rsi-modal-submit-button-downsell-no-thanks")
+    closeModal[0].addEventListener("click", function(){
+        let showModal=document.querySelectorAll("#_rsi-cod-form-modal")
+            showModal[0].remove();
+        console.log("closeModal",showModal[0])
+    })
 }
 
 
@@ -471,7 +544,6 @@ function addClassShakeToModalEspera() {
     let addClaseShakeInsideModalButtonClose = document.getElementById("_rsi-modal-submit-button-downsell")
     console.log("inside box x",addClaseShakeInsideModalButtonClose);
     function toggleClass() {
-        console.log("inside aqui va shake");
         addClaseShakeInsideModalButtonClose.classList.toggle("_rsi-buy-now-button-shaker-enabled");
     }
     setInterval(toggleClass, 1000); // Toggle class every 0.2 seconds

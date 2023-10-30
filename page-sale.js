@@ -304,7 +304,7 @@ var miFirstBoton = document.getElementById("_rsi-buy-now-button");
 
 
 miFirstBoton.addEventListener("click", function() {
-    fbq('track', 'InitiateCheckout');
+    fbq('track', 'AddPaymentInfo');
     setTimeout(function() {
         addClassToBoxBuySecond()
     }, 1000); 
@@ -449,6 +449,26 @@ function addSecondModalInsideDiv(buttonBuyModal) {
             let buttonEndBuyAndSecondModal = document.getElementById("_rsi-modal-submit-button-upsell-no-thanks");
             buttonEndBuyAndSecondModal.addEventListener("click",function(){
                 window.open(whatsappURL, '_blank');
+
+                fbq('track', 'Purchase', {
+                    content_ids: ['PRODUCT_ID_1'],  // An array of product IDs.
+                    content_name: 'LEDS SOLARES DE COLORES NAVIDAD',  // The name of the product.
+                    content_type: 'product',  // The type of content (e.g., product, product_group, etc.).
+                    contents: [
+                      {
+                        id: 'PRODUCT_ID_1',  // Product ID
+                        quantity: 1,  // Quantity purchased
+                        item_price: totalValue,  // Price per item
+                        currency: 'SOL'  // Currency of the transaction
+                      }
+                    ],
+                    currency: 'SOL',  // The currency of the purchase.
+                    num_items: 1,  // Total number of items in the purchase.
+                    value: totalValue  // The total value of the purchase.
+                  });    
+                  
+                  
+                  
             })
 
             let closeSecondModal = document.querySelectorAll("#_rsi-cod-form-modal-close-2");
